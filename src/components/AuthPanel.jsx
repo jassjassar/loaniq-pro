@@ -10,6 +10,11 @@ export default function AuthPanel() {
     event.preventDefault();
     setMessage('');
 
+    if (!supabase) {
+      setMessage('Supabase is not configured yet.');
+      return;
+    }
+
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {

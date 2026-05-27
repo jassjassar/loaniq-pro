@@ -7,7 +7,7 @@ import ScenarioTable from './components/ScenarioTable';
 import Legal from './pages/Legal';
 import { buildAmortizationSchedule } from './lib/amortization';
 import { parseScenario } from './lib/validation';
-import { supabase } from './lib/supabaseClient';
+import { isSupabaseConfigured, supabase } from './lib/supabaseClient';
 
 const defaultDraft = {
   label: 'Scenario A',
@@ -35,6 +35,11 @@ export default function App() {
   );
 
   useEffect(() => {
+    if (!isSupabaseConfigured) {
+      setIsAuthReady(true);
+      return undefined;
+    }
+
     let isMounted = true;
 
     supabase.auth.getSession().then(({ data }) => {
@@ -98,6 +103,10 @@ export default function App() {
   }
 
   async function getApprovalResult(scenario) {
+    if (!supabase) {
+      throw new Error('Supabase is not configured.');
+    }
+
     const { data, error: functionError } = await supabase.functions.invoke('approval-engine', {
       body: scenario
     });
@@ -131,9 +140,28 @@ export default function App() {
   }
 
   async function signOut() {
+    if (!supabase) {
+      return;
+    }
+
     await supabase.auth.signOut();
     setScenarios([]);
     setApprovalResults({});
+  }
+
+  if (!isSupabaseConfigured) {
+    return (
+      <main className="auth-page">
+        <section className="auth-panel">
+          <p className="eyebrow">Configuration Needed</p>
+          <h1>Connect Supabase in Vercel.</h1>
+          <p>
+            Add `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` to the Vercel project environment variables, then
+            redeploy the production build.
+          </p>
+        </section>
+      </main>
+    );
   }
 
   if (!isAuthReady) {
