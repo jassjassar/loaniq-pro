@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#f6f8fb"/>
+  <rect x="80" y="80" width="1040" height="470" rx="28" fill="#102a43"/>
+  <text x="130" y="220" fill="#f8fafc" font-family="Arial, sans-serif" font-size="88" font-weight="700">LoanIQ Pro</text>
+  <text x="135" y="292" fill="#bae6fd" font-family="Arial, sans-serif" font-size="34">Secure loan comparison and amortization intelligence</text>
+  <path d="M140 425h290v32H140zM140 375h390v32H140zM140 325h250v32H140z" fill="#d9f99d"/>
+  <path d="M736 430c46-86 92-129 138-129 40 0 64 30 95 30 34 0 62-27 91-81" fill="none" stroke="#38bdf8" stroke-width="18" stroke-linecap="round"/>
+</svg>

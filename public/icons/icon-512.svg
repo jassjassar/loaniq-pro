@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="LoanIQ Pro">
+  <rect width="512" height="512" rx="96" fill="#102a43"/>
+  <path d="M118 327h276v39H118zM151 272h210v33H151zM182 216h148v33H182z" fill="#d9f99d"/>
+  <path d="M132 171l124-67 124 67v25H132z" fill="#38bdf8"/>
+  <circle cx="256" cy="173" r="24" fill="#f8fafc"/>
+</svg>
