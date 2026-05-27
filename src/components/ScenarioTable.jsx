@@ -1,8 +1,17 @@
 import { Download, FileText } from 'lucide-react';
 import { buildAmortizationSchedule, summarizeScenario } from '../lib/amortization';
-import { exportScheduleCsv, exportSchedulePdf } from '../lib/exporters';
 
 const money = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+
+async function exportPdf(label, schedule) {
+  const { exportSchedulePdf } = await import('../lib/exporters');
+  exportSchedulePdf(label, schedule);
+}
+
+async function exportCsv(label, schedule) {
+  const { exportScheduleCsv } = await import('../lib/exporters');
+  exportScheduleCsv(label, schedule);
+}
 
 export default function ScenarioTable({ scenarios, approvalResults }) {
   return (
@@ -38,11 +47,11 @@ export default function ScenarioTable({ scenarios, approvalResults }) {
               </div>
             </dl>
             <div className="card-actions">
-              <button type="button" onClick={() => exportSchedulePdf(scenario.label, schedule)}>
+              <button type="button" onClick={() => exportPdf(scenario.label, schedule)}>
                 <FileText size={17} />
                 PDF
               </button>
-              <button type="button" onClick={() => exportScheduleCsv(scenario.label, schedule)}>
+              <button type="button" onClick={() => exportCsv(scenario.label, schedule)}>
                 <Download size={17} />
                 CSV
               </button>

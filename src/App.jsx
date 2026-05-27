@@ -1,13 +1,14 @@
-import { useEffect, useMemo, useState } from 'react';
+import { Suspense, lazy, useEffect, useMemo, useState } from 'react';
 import { LogOut, ShieldCheck } from 'lucide-react';
 import AuthPanel from './components/AuthPanel';
-import ScenarioCharts from './components/ScenarioCharts';
 import ScenarioForm from './components/ScenarioForm';
 import ScenarioTable from './components/ScenarioTable';
 import Legal from './pages/Legal';
 import { buildAmortizationSchedule } from './lib/amortization';
 import { parseScenario } from './lib/validation';
-import { isSupabaseConfigured, supabase } from './lib/supabaseClient';
+import { isSupabaseConfigured, supabase, supabaseConfig } from './lib/supabaseClient';
+
+const ScenarioCharts = lazy(() => import('./components/ScenarioCharts'));
 
 const defaultDraft = {
   label: 'Scenario A',
@@ -159,6 +160,7 @@ export default function App() {
             Add `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` to the Vercel project environment variables, then
             redeploy the production build.
           </p>
+          {supabaseConfig.error ? <p className="auth-message">{supabaseConfig.error}</p> : null}
         </section>
       </main>
     );
@@ -213,7 +215,9 @@ export default function App() {
         <ScenarioForm draft={draft} error={error} onChange={updateDraft} onSubmit={saveScenario} />
         <div className="results-column">
           <ScenarioTable scenarios={scenarios} approvalResults={approvalResults} />
-          <ScenarioCharts schedules={schedules} />
+          <Suspense fallback={<section className="panel chart-panel">Loading charts...</section>}>
+            <ScenarioCharts schedules={schedules} />
+          </Suspense>
         </div>
       </div>
     </main>
